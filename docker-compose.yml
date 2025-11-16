@@ -1,0 +1,34 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: ttms-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: ttms
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - ttms-network
+
+  ttms-app:
+    build: .
+    container_name: ttms-application
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/ttms
+    depends_on:
+      - mongodb
+    networks:
+      - ttms-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  ttms-network:
+    driver: bridge
