@@ -7,4 +7,6 @@ README.md
 Dockerfile
 .dockerignore
 docker-compose.yml
-.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd
+.mvn/

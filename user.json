@@ -1,0 +1,137 @@
+[{
+  "_id": {
+    "$oid": "68c2e670196ec3e4273d7cbe"
+  },
+  "userId": "US0002",
+  "username": "user",
+  "locations": [
+    {
+      "_id": {
+        "$oid": "68c1a8b73c20a0b46ec735aa"
+      },
+      "city": {
+        "_id": {
+          "$oid": "68c19fee3c20a0b46ec73583"
+        },
+        "cityId": "C004",
+        "cityName": "Mailam"
+      },
+      "locationId": "L001",
+      "locationName": "Bus Stand"
+    },
+    {
+      "_id": {
+        "$oid": "68c1aa0b3c20a0b46ec735ab"
+      },
+      "city": {
+        "_id": {
+          "$oid": "68c1a8663c20a0b46ec735a9"
+        },
+        "cityId": "C0010",
+        "cityName": "Pondicherry"
+      },
+      "locationId": "L002",
+      "locationName": "Bus Stand (New Stand)"
+    }
+  ],
+  "mobileNo": "8018307812",
+  "city": {
+    "_id": {
+      "$oid": "68be4e0e55e6ada89575d728"
+    },
+    "cityId": "CI0001",
+    "cityName": "Chennai"
+  },
+  "email": "dummy@gmail.com",
+  "password": "$2a$10$ahi23VjmgDKe5CzDhf/uWeqANxktUlO6ijmZOE2v26XIYPWiYnEEq",
+  "role": "SuperAdmin",
+  "_class": "com.example.TTMS.entity.User"
+},
+{
+  "_id": {
+    "$oid": "68c58455d1ad13794f3b2194"
+  },
+  "userId": "US0001",
+  "username": "superadmin",
+  "locations": [
+    {
+      "$ref": "location",
+      "$id": {
+        "$oid": "68c57928d1ad13794f3b2168"
+      }
+    },
+    {
+      "$ref": "location",
+      "$id": {
+        "$oid": "68c57f61d1ad13794f3b2182"
+      }
+    }
+  ],
+  "mobileNo": "8018307815",
+  "city": {
+    "$ref": "city",
+    "$id": {
+      "$oid": "68bf047e55e6ada89575d77b"
+    }
+  },
+  "email": "dummy1@gmail.com",
+  "password": "$2a$10$CH9GxAKqZiDwXudOgYoarO2jZWtfDYzXmUggp9Htn5.rG.9r2TFxm",
+  "role": "SuperAdmin",
+  "_class": "com.example.TTMS.entity.User"
+},
+{
+  "_id": {
+    "$oid": "69184c87f3fa00c6fa5205b1"
+  },
+  "userId": "NTS0085",
+  "username": "anandabimanyu1999",
+  "address": "Cuddalore",
+  "mobileNo": "7890789090",
+  "pickupLocation": {
+    "_id": {
+      "$oid": "68fa4c08b37aa8f2bf7cb893"
+    },
+    "city": "68fa4bf2b37aa8f2bf7cb892",
+    "cityName": "Chennai",
+    "locationId": "LS001",
+    "locationName": "New Town"
+  },
+  "transport": {
+    "_id": {
+      "$oid": "68fa4d01b37aa8f2bf7cb898"
+    },
+    "transportId": "TS001",
+    "vehicleNo": "TN-31 CE-9997",
+    "ownerDetails": "Kumaran",
+    "contact": "7094097008",
+    "email": "vignesh62it@gmail.com",
+    "type": "Standard Sedan",
+    "seater": 3,
+    "vendorId": "68fa4cd9b37aa8f2bf7cb897",
+    "password": "$2a$10$iLx.m766ylCcVa9vw5XiBOtJn/tEY7lBw880GmodOdCPO7NCsbGbe",
+    "role": "Transport",
+    "city": {
+      "$ref": "city",
+      "$id": {
+        "$oid": "68fa4bf2b37aa8f2bf7cb892"
+      }
+    },
+    "status": "On Trip",
+    "isforgot": false
+  },
+  "noOfPerson": 5,
+  "city": {
+    "$ref": "city",
+    "$id": {
+      "$oid": "68fa4bf2b37aa8f2bf7cb892"
+    }
+  },
+  "pickupDate": {
+    "$date": "2025-11-14T18:30:00.000Z"
+  },
+  "email": "ananthkumar.ucep@gmail.com",
+  "password": "$2a$10$eVCyRPwWpsgU/jNivv3pU.3vVk8UtT/bUIeCmRkDNpGI5XfziFrFq",
+  "role": "user",
+  "isforgot": false,
+  "_class": "com.example.TTMS.entity.User"
+}]

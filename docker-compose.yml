@@ -20,7 +20,7 @@ services:
       - "8081:8081"
     environment:
       - SPRING_PROFILES_ACTIVE=dev
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/ttms
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://skilluptechsolution_db_user:uIIXgYVhLAq0lh2W@skillup.rjxwzkh.mongodb.net/?appName=skillup
     depends_on:
       - mongodb
     networks:
