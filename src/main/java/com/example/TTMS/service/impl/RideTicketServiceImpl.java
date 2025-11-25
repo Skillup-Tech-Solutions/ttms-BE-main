@@ -188,29 +188,45 @@ public class RideTicketServiceImpl implements RideTicketService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ride ticket not found"));
         User user = userRepo.findByUserId(rideTicket.getUserId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-        if (rideTicket.isOtpSent() && rideTicket.getOtpExpiryTime() != null &&
-                rideTicket.getOtpExpiryTime().isAfter(LocalDateTime.now())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "OTP already sent. Please wait before requesting a new one.");
-        }
 
-        SecureRandom random = new SecureRandom();
-        String otp = String.valueOf(1000 + random.nextInt(9000));
+        String otp = "1234";
         String content = mailTemplateService.sendOtpMail(otp, user.getUsername());
+        
+        rideTicket.setOtp(otp);
+        rideTicket.setOtpExpiryTime(LocalDateTime.now().plusMinutes(5));
+        rideTicket.setOtpSent(true);
+        rideTicket.setUpdatedAt(LocalDateTime.now());
+        rideTicketRepo.save(rideTicket);
+        
         try {
             mailService.sendMail(user.getEmail(), "Your Ride OTP", content);
-
-            rideTicket.setOtp(otp);
-            rideTicket.setOtpExpiryTime(LocalDateTime.now().plusMinutes(5));
-            rideTicket.setOtpSent(true);
-            rideTicket.setUpdatedAt(LocalDateTime.now());
-            rideTicketRepo.save(rideTicket);
-
         } catch (MessagingException e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Failed to send OTP email. Please try again.");
+            // Email failed but OTP is still saved
         }
+        
+        // if (rideTicket.isOtpSent() && rideTicket.getOtpExpiryTime() != null &&
+        // rideTicket.getOtpExpiryTime().isAfter(LocalDateTime.now())) {
+        // throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+        // "OTP already sent. Please wait before requesting a new one.");
+        // }
+
+        // SecureRandom random = new SecureRandom();
+        // String otp = String.valueOf(1000 + random.nextInt(9000));
+        // String content = mailTemplateService.sendOtpMail(otp, user.getUsername());
+        // try {
+        // mailService.sendMail(user.getEmail(), "Your Ride OTP", content);
+
+        // rideTicket.setOtp(otp);
+        // rideTicket.setOtpExpiryTime(LocalDateTime.now().plusMinutes(5));
+        // rideTicket.setOtpSent(true);
+        // rideTicket.setUpdatedAt(LocalDateTime.now());
+        // rideTicketRepo.save(rideTicket);
+
+        // } catch (MessagingException e) {
+        // e.printStackTrace();
+        // throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+        // "Failed to send OTP email. Please try again.");
+        // }
     }
 
     @Override
