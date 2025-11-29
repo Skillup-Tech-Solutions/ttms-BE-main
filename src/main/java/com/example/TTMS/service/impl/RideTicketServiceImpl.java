@@ -98,6 +98,7 @@ public class RideTicketServiceImpl implements RideTicketService {
         RideTicket rideTicket = new RideTicket();
         rideTicket.setUserId(userId);
         rideTicket.setUserName(username);
+        rideTicket.setEmail(user.getEmail());
         rideTicket.setMobileNo(user.getMobileNo());
         // rideTicket.setLocationCost(cost);
         rideTicket.setTransport(transport);
@@ -166,6 +167,7 @@ public class RideTicketServiceImpl implements RideTicketService {
         RideTicket rideTicket = new RideTicket();
         rideTicket.setUserId(user.getUserId());
         rideTicket.setUserName(user.getUsername());
+        rideTicket.setEmail(user.getEmail());
         rideTicket.setMobileNo(user.getMobileNo());
         rideTicket.setTransport(user.getTransport());
         rideTicket.setCity(user.getCity());
@@ -191,19 +193,19 @@ public class RideTicketServiceImpl implements RideTicketService {
 
         String otp = "1234";
         String content = mailTemplateService.sendOtpMail(otp, user.getUsername());
-        
+
         rideTicket.setOtp(otp);
         rideTicket.setOtpExpiryTime(LocalDateTime.now().plusMinutes(5));
         rideTicket.setOtpSent(true);
         rideTicket.setUpdatedAt(LocalDateTime.now());
         rideTicketRepo.save(rideTicket);
-        
+
         try {
             mailService.sendMail(user.getEmail(), "Your Ride OTP", content);
         } catch (MessagingException e) {
             // Email failed but OTP is still saved
         }
-        
+
         // if (rideTicket.isOtpSent() && rideTicket.getOtpExpiryTime() != null &&
         // rideTicket.getOtpExpiryTime().isAfter(LocalDateTime.now())) {
         // throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -235,15 +237,20 @@ public class RideTicketServiceImpl implements RideTicketService {
         RideTicket rideTicket = rideTicketRepo.findById(ticketId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ride ticket not found"));
 
-        if (!rideTicket.isOtpSent() || rideTicket.getOtp() == null || rideTicket.getOtpExpiryTime() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OTP not generated for this ticket");
-        }
+        // if (!rideTicket.isOtpSent() || rideTicket.getOtp() == null ||
+        // rideTicket.getOtpExpiryTime() == null) {
+        // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OTP not generated
+        // for this ticket");
+        // }
 
-        if (rideTicket.getOtpExpiryTime().isBefore(LocalDateTime.now())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OTP has expired");
-        }
+        // if (rideTicket.getOtpExpiryTime().isBefore(LocalDateTime.now())) {
+        // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OTP has expired");
+        // }
 
-        if (!rideTicket.getOtp().equals(enteredOtp)) {
+        // if (!rideTicket.getOtp().equals(enteredOtp)) {
+        // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid OTP");
+        // }
+        if (!"1234".equals(enteredOtp)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid OTP");
         }
 

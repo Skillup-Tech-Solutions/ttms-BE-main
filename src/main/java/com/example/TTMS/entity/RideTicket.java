@@ -18,6 +18,7 @@ public class RideTicket {
     private String id;
     private String userId;
     private String userName;
+    private String email;
     private String mobileNo;
     private City City;
     private Vendor vendor;
