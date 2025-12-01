@@ -46,6 +46,9 @@ public class SecurityConfig {
     @Value("${rsa.private-key}")
     RSAPrivateKey privateKey;
 
+    @Value("${com.custom.frontendUrl}")
+    String frontendUrl;
+
     private final CustomAuthenticationEntryPoint entryPoint;
 
     public SecurityConfig(CustomAuthenticationEntryPoint entryPoint) {
@@ -55,7 +58,13 @@ public class SecurityConfig {
     @Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOriginPatterns(List.of("*"));
+		// Specify exact origins instead of wildcard when using credentials
+		// Use configured frontendUrl from application properties
+		configuration.setAllowedOrigins(List.of(
+			frontendUrl,
+			"http://localhost:5173",
+			"http://localhost:3000"
+		));
 		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 		configuration.setAllowedHeaders(List.of("*"));
 		configuration.setExposedHeaders(List.of("Authorization", "Content-Type"));
