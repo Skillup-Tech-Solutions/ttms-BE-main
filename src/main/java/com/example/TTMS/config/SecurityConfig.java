@@ -59,12 +59,13 @@ public class SecurityConfig {
     @Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		// Specify exact origins instead of wildcard when using credentials
-		// Use configured frontendUrl from application properties
-		configuration.setAllowedOrigins(List.of(
-			frontendUrl,
-			"http://localhost:5173",
-			"http://localhost:3000"
+		// Allow multiple frontend origins for different deployment environments
+		configuration.setAllowedOriginPatterns(List.of(
+			"https://ttms.skilluptechbuzz.in",
+			"https://*.vercel.app",
+			"https://*.netlify.app",
+			"http://localhost:*",
+			"http://127.0.0.1:*"
 		));
 		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 		configuration.setAllowedHeaders(List.of("*"));
