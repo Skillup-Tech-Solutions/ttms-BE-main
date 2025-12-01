@@ -25,9 +25,9 @@ COPY --from=build /app/config ./config
 
 ENV SPRING_PROFILES_ACTIVE=dev
 ENV SPRING_DATA_MONGODB_DATABASE=ttms
-ENV SERVER_PORT=8081
 ENV COM_CUSTOM_FRONTENDURL=https://ttms.skilluptechbuzz.in
 
-EXPOSE 8081
+# Render provides PORT environment variable dynamically
+EXPOSE ${PORT:-8081}
 
-CMD ["java", "-jar", "app.jar"]
+CMD ["sh", "-c", "java -Dserver.port=${PORT:-8081} -jar app.jar"]
