@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,6 +47,9 @@ public class SecurityConfig {
     @Value("${rsa.private-key}")
     RSAPrivateKey privateKey;
 
+    @Value("${com.custom.frontendUrl}")
+    String frontendUrl;
+
     private final CustomAuthenticationEntryPoint entryPoint;
 
     public SecurityConfig(CustomAuthenticationEntryPoint entryPoint) {
@@ -55,7 +59,14 @@ public class SecurityConfig {
     @Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOriginPatterns(List.of("*"));
+		// Allow multiple frontend origins for different deployment environments
+		configuration.setAllowedOriginPatterns(List.of(
+			"https://ttms.skilluptechbuzz.in",
+			"https://*.vercel.app",
+			"https://*.netlify.app",
+			"http://localhost:*",
+			"http://127.0.0.1:*"
+		));
 		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 		configuration.setAllowedHeaders(List.of("*"));
 		configuration.setExposedHeaders(List.of("Authorization", "Content-Type"));
@@ -94,7 +105,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/reset-link/{userId}").permitAll()
                         .requestMatchers("/auth/forgot-password").permitAll()
                         .requestMatchers("/auth/sign-in").permitAll()
-                        .requestMatchers("OPTIONS", "/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())))
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(entryPoint));

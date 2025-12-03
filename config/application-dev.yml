@@ -39,6 +39,7 @@ rsa:
 
 com:
   custom:
+    frontendUrl: http://localhost:5173
     reset-link: http://localhost:5173/#/reset-password
     isSignUp: true
     swagger-path: /ttms/api/
